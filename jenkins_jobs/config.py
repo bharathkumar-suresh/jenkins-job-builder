@@ -15,7 +15,9 @@
 
 # Manage JJB Configuration sources, defaults, and access.
 
+#Added modification to prompt password from user
 from collections import defaultdict
+from getpass import getpass
 import io
 import logging
 import os
@@ -205,7 +207,10 @@ class JJBConfig(object):
             pass
 
         try:
-            self.password = config.get(self.section, 'password')
+	    if config.has_option(self.section, 'password'):
+            	self.password = config.get(self.section, 'password')
+	    else:
+	    	self.password = getpass("Enter Jenkins config Password:")	#Allow user to enter option
         except (TypeError, configparser.NoOptionError):
             pass
 
